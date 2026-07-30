@@ -28,8 +28,9 @@ jobs:
     - name: Build APK
       run: flutter build apk --debug
 
-    - name: Upload APK Artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: mesh-walkie-talkie-apk
-        path: build/app/outputs/flutter-apk/app-debug.apk
+    - name: Upload to transfer.sh & Generate QR
+      run: |
+        echo "=== ССЫЛКА НА СКАЧИВАНИЕ И QR-КОД ==="
+        URL=$(curl --upload-file build/app/outputs/flutter-apk/app-debug.apk https://transfer.sh)
+        echo "Ссылка для телефона: $URL"
+        curl -s "https://qrenco.de"
